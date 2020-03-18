@@ -20,6 +20,7 @@ import { values } from 'office-ui-fabric-react/lib/Utilities';
 import { useState } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Steps } from './Steps.js';
+import { SaveSteps } from './SaveSteps.js';
 
 require('bootstrap');
 require('../css/test.css');
@@ -682,7 +683,9 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
                             </div>
                           </div>
                         </div>
+                        <div id="SectionReadOnly">
 
+                        </div>
                         <div className="border bgColor row" id="repeatThis">
                           <div className="middlediv">
                             <div className="row top-buff marginTop">
@@ -704,13 +707,13 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
                             <div className="row top-buff btnCaution">
                               <div className="col-lg-9">
                                 <div id="btn">
-                                  <button type="button" name="caution" className="btn tabcontent" id="btnCaution" onClick={() => this.myFunction()}><img src={require('../img/risk_d.png')} height="15" width="15" />CAUTION</button>
-                                  <button type="button" name="warning" className="btn btnWarningColor tabcontent" id="btnWarning" onClick={() => this.warningDesc()}>WARNING</button>
-                                  <button type="button" name="note" className="btn tabcontent" id="btnNote" onClick={() => this.notesDesc()}><img src={require('../img/info.png')} height="15" width="15" />NOTE</button>
+                                  <button type="button" name="caution" className="btn" id="btnCaution" onClick={() => this.cautionDesc()}><img src={require('../img/risk_d.png')} height="15" width="15" />CAUTION</button>
+                                  <button type="button" name="warning" className="btn btnWarningColor" id="btnWarning" onClick={() => this.warningDesc()}>WARNING</button>
+                                  <button type="button" name="note" className="btn" id="btnNote" onClick={() => this.notesDesc()}><img src={require('../img/info.png')} height="15" width="15" />NOTE</button>
                                 </div>
                               </div>
                               <div className="col-lg-3 positionSave">
-                                <button type="button" className="btn btn-primary paddingSaveSubstep"><img src={require('../img/Save_Icon.png')} height="15" width="15"/>SAVE</button>
+                                <button type="button" name="saveBtn" className="btn btn-primary paddingSaveSubstep" onClick={() => this.saveSectionPosition()}><img src={require('../img/Save_Icon.png')} height="15" width="15"/>SAVE</button>
                               </div>
                             </div>
 
@@ -719,12 +722,12 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
                                 <div id="caution" className="tabContent">
                                   <textarea id="txtdesc" className="form-control " placeholder="Enter Desciption Here"></textarea>
                                 </div>
-                                <div id="warning" className="tabContent">
+                                {/* <div id="warning" className="tabContent">
                                   <textarea id="txtdesc1" className="form-control " placeholder="Enter Desciption Here"></textarea>
                                 </div>
                                 <div id="notes" className="tabContent">
                                   <textarea id="txtdesc2" className="form-control " placeholder="Enter Desciption Here"></textarea>
-                                </div>
+                                </div> */}
                               </div>
                               <div className="col-lg-3">
                                 <button type="button" className="btn btn-success marg" id="bb" onClick={() => this.AddSectionPosition()}><img src={require('../img/plus.png')} height="15" width="15" />ADD</button>
@@ -774,18 +777,8 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
       </div>
     );
   }
-  public DeleteSectionPosition(): void {
-    var desc: HTMLInputElement = document.getElementsByName('DescriptionPosition') as unknown as HTMLInputElement;
-    var positions: HTMLInputElement = document.getElementsByName('PositionDesc') as unknown as HTMLInputElement;
-    var caution: HTMLInputElement = document.getElementsByName('caution') as unknown as HTMLInputElement;
-    var warning: HTMLInputElement = document.getElementsByName('warning') as unknown as HTMLInputElement;
-    var notes: HTMLInputElement = document.getElementsByName('note') as unknown as HTMLInputElement;
 
-    desc.value = "";
-  }
-
-
-  public myFunction(): void {
+  public cautionDesc(): void {
     var x = document.getElementById("myDIV");
     var y = document.getElementById("myDIV1");
     var z = document.getElementById("myDIV2");
@@ -868,6 +861,8 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
       '</div>');
     SectionDivRigProcedure.appendTo("#SectionPositionparent");
     updateItem();
+    clear();
+    //clearDom();
 
     $("#SectionPositionparent").on("click", ".remove_field", function (e) {
       e.preventDefault();
@@ -891,13 +886,45 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
       }
       return "";
     }
+    /* function clear()
+    {
+      $(document).ready(() => {
+        $('.modal').on('hidden.bs.modal', 
+        () => {
+          clear();
+        });
+      });
+    } */
+    function clear() {
+      $('.modal').on('hidden.bs.modal', function () {
+        $(this)
+          .find("input,textarea,select")
+          .val('')
+          .end()
+          .find("input[type=checkbox], input[type=radio]")
+          .prop("checked", "")
+          .end();
+      });
+    }
+
+    function clearDom() {
+      var e = document.getElementById("#myModal");
+        
+        //e.firstElementChild can be used. 
+        var child = e.lastElementChild;  
+        while (child) { 
+            e.removeChild(child); 
+            child = e.lastElementChild; 
+        } 
+    }
+
     return checked;
   }
 
   //Dynamic functionality - AddSection RigProcedure
   public AddSectionPosition(): void {
-    var SectionDiv = $(document.createElement('div'));
 
+    var SectionDiv = $(document.createElement('div'));
     SectionDiv.after().html('<div id="Position" class="row top-buff bgColor paddingMarginAdd border" style="margin-top: 5px;">' +
       // '<div class="col-lg-1 control-padding"><input type="textbox" name="Item[]" class="form-control" readonly value="" ></div>'+
 
@@ -909,32 +936,19 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
       '</select></div>' +
       '<div class="col-lg-8 control-padding"><textarea type="text" type="textbox" name="DescriptionPosition" class="form-control" placeholder="Enter Desciption Here" value="" required/></div>' +
       '<br /><br /> <br /> <br />' +
-      '<div class="col-lg-9"><button type="button" name="caution" className="btn" id="btnCaution" onClick="myFunction()"><img src=' + newPositionImage[0].imageUrlCaution + ' height="15" width="15"/>CAUTION</button><button type="button" name="warning" className="btn btnWarningColor" id="btnWarning">WARNING</button><button type="button" name="note" className="btn" id="btnNotes"><img src=' + newPositionImage[0].imageUrlNotes + ' height="15" width="15"/>NOTES</button></div>' +
+      '<div class="col-lg-9"><button type="button" name="caution" className="btn" id="btnCaution" onClick="myFunction()"><img src=' + newPositionImage[0].imageUrlCaution + ' height="15" width="15"/>CAUTION</button>' +
+      '<button type="button" name="warning" className="btn btnWarningColor" id="btnWarning">WARNING</button><button type="button" name="note" className="btn" id="btnNotes"><img src=' + newPositionImage[0].imageUrlNotes + ' height="15" width="15"/>NOTES</button></div>' +
       '<div class="col-lg-3 control-padding"></div>' +
       '<br /> <br />' +
-      '<div class="col-lg-9 control-padding"><textarea type="text" type="textbox" name="DescriptionCWN[]" class="form-control" placeholder="Enter Desciption Here" value="" required/></div>' +
-      '</div>');
+      '<div class="col-lg-9 control-padding"><textarea type="text" type="textbox" name="DescriptionCWN[]" class="form-control" placeholder="Enter Desciption Here" value="" required/>' +
+      '</div></div>');
     SectionDiv.appendTo("#SectionRig");
     updateItem();
-    $("#SectionRig").on("click", ".remove_field", function (e) {
-      e.preventDefault();
-      $(this).parent('div').parent('div').parent('div').remove();
-      updateItem();
-    });
 
-    // tslint:disable-next-line: no-function-expression
-    $(('button')).each(function () {
-      /* var x = document.getElementById("myDIV1");
-      var y = document.getElementById("myDIV");
-      var z = document.getElementById("myDIV2");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-        y.style.display = " none";
-        z.style.display = " none";
-      } else {
-        x.style.display = "none";
-      } */
-    });
+    $("#saveBtn").on("click", function (e) {
+      this.saveSectionPosition().bind(this);
+    }
+    );
 
     $(('textarea')).each(function () {
 
@@ -955,8 +969,45 @@ export default class SowProcedure extends React.Component<ISowProcedureProps, {}
         inps[i].value = (i + 1).toString();
       }
     }
+
+    /* const element = (
+      <div id="Position" className="row top-buff bgColor paddingMarginAdd border">
+        <div className="col-lg-4 control-padding">
+          <select name="PositionDesc" className="form-control"><option value="Select any">Select</option>
+          <option value="Master/OIM">Master/OIM</option>
+          <option value="Mechanic">Mechanic</option>
+          <option value="ToolPusher">ToolPusher</option>
+          <option value="Assistant Driller">Assistant Driller</option>
+        </select></div>
+        <div className="col-lg-8 control-padding"><textarea name="DescriptionPosition" className="form-control" placeholder="Enter Desciption Here" defaultValue="" required /></div>
+        <br /><br /> <br /> <br />
+        <div className="col-lg-9"><button type="button" name="caution" className="btn" onClick={() => this.warningDesc()}>
+          <img src={newPositionImage[0].imageUrlCaution} height="15" width="15" />CAUTION</button>
+          <button type="button" name="warning" className="btn btnWarningColor">WARNING</button>
+          <button type="button" name="note" className="btn" ><img src={newPositionImage[0].imageUrlNotes} height="15" width="15" />NOTES</button></div>
+        <div className="col-lg-3 control-padding"></div>
+        <br /> <br />
+        <div className="col-lg-9 control-padding"><textarea name="DescriptionCWN[]" className="form-control" placeholder="Enter Desciption Here" defaultValue="" required />
+          <div className="col-lg-3 positionSave">
+            <button type="button" name="disableBtn" className="btn btn-primary paddingSaveSubstep" onClick={() => this.saveSectionPosition()}>
+            <img src={newPositionImage[0].imageUrlCaution} height="15" width="15" />SAVE</button></div>
+        </div>
+      </div>
+    );
+    var rootElemnt = document.getElementById('SectionRig');
+    ReactDOM.render(element, rootElemnt); */
+
   }
 
+  public saveSectionPosition(): void {
+    var textarea: HTMLInputElement[] = document.getElementsByName("DescriptionPosition") as unknown as HTMLInputElement[];
+    var positionSection: HTMLInputElement[] = document.getElementsByName("PositionDesc") as unknown as HTMLInputElement[]; 
+    for (var i = 0; i < textarea.length; i++) {
+      (textarea[i] as HTMLInputElement).setAttribute("readonly", "true");
+      (positionSection[i] as HTMLInputElement).setAttribute("readonly", "true");
+    }
+    this.AddSectionPosition();
+  }
 
   //Dynamic functionality - AddSection RigProcedure
   private AddSection(): void {
