@@ -1,0 +1,119 @@
+#workbenchPageContent {
+    margin: 0;
+    max-width: none;
+}
+
+#webmenu {
+    width:340px;
+}
+
+#s4-titlerow {
+    height: 0%;
+}
+.imgBorder {
+    border: 1px solid black;
+}
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    padding: 6px 13px !important;
+}
+#btnCaution {
+    margin-right: 5px;
+}
+#btnWarning {
+    margin-right: 5px;
+}
+.fontSize {
+    font-size: 13px;
+}
+.paddingLeft {
+    padding-left: 15px;
+}
+.border {
+    border-bottom: 1px solid black;
+}
+#repeatThis {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.delete {
+    margin-bottom: 5px;
+}
+#btn {
+    margin-bottom: 5px;
+}
+.desc {
+    margin-bottom: 5px;
+    padding-right: 28px;
+}
+.delete {
+    padding: 6px 35px !important;
+}
+.bgColor {
+    background-color: #d9d9d9;
+}
+.selectDropdown {
+    padding-left: 28px;
+}
+.selectDesc {
+    padding-left: 15px;
+}
+.positionSave {
+    padding-right: 28px;
+}
+.btnCaution {
+    padding-left: 15px;
+}
+.marginTop {
+    margin-top: 5px;
+}
+.marg {
+    margin-bottom: 5px;
+}
+.close {
+    float: right;
+}
+.step {
+    font-weight: 300;
+}
+.centerAddProc {
+    text-align: center;
+    color: white;
+}
+.top {
+    background-color: #8080ff;
+}
+.modal-header {
+    padding: 0px !important;
+}
+.paddingLeftAttach {
+    padding-left: 38px;
+}
+.btnWarningColor {
+    color: red;
+}
+.btnResetColor {
+    color: #fff;
+    background-color: red;
+    border-color: red;
+    padding: 6px 38px !important;
+}
+.paddingSaveSubstep {
+    padding-right: 10px;
+}
+.paddingMarginAdd {
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+.selecDescMargin {
+    margin-bottom: 10px;
+}
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
